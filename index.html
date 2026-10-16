@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1a1d21">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sporting Pay">
+<title>Sporting Pay · Prototipo</title>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --g:#76B82A; --g2:#00BB00; --gd:#4E8A12; --gl:#EEF7E3;
+  --ink:#121417; --ink2:#5B626B; --line:#E6E8EB; --bg:#F3F4F6; --card:#fff;
+  --page:#E9EBEE;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,sans-serif;background:var(--page);color:var(--ink);padding:32px 16px 60px}
+.top{max-width:1500px;margin:0 auto 28px;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.top h1{font-family:'Russo One','Arial Black',Arial,sans-serif;font-size:28px;letter-spacing:.5px}
+.top h1 span{color:var(--g)}
+.top p{color:var(--ink2);font-size:14px;margin-top:6px;max-width:640px}
+.conf{background:#111;color:#fff;font-size:11px;font-weight:700;letter-spacing:1.5px;padding:7px 12px;border-radius:6px}
+.grid{max-width:1500px;margin:0 auto;display:flex;gap:28px;overflow-x:auto;padding-bottom:16px;scroll-snap-type:x mandatory}
+.col{flex:0 0 auto;scroll-snap-align:start}
+.label{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink2);margin-bottom:4px}
+.label b{color:var(--ink)}
+.ref{font-size:12px;color:var(--ink2);margin-bottom:12px;max-width:300px;min-height:48px}
+.phone{width:300px;height:640px;background:#000;border-radius:44px;padding:10px;box-shadow:0 20px 40px rgba(0,0,0,.18)}
+.screen{width:100%;height:100%;background:var(--bg);border-radius:36px;overflow:hidden;position:relative;display:flex;flex-direction:column}
+.status{height:34px;display:flex;justify-content:space-between;align-items:center;padding:0 22px;font-size:12px;font-weight:600;flex-shrink:0}
+.body{flex:1;overflow-y:auto;padding:4px 16px 16px}
+.body::-webkit-scrollbar{display:none}
+.tabbar{height:62px;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;align-items:center;padding-bottom:6px;flex-shrink:0}
+.tab{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9.5px;color:#9AA0A6;font-weight:600}
+.tab svg{width:20px;height:20px}
+.tab.on{color:var(--gd)}
+.tab.qr{background:var(--g);color:#fff;width:48px;height:48px;border-radius:16px;justify-content:center;margin-top:-22px;box-shadow:0 6px 14px rgba(118,184,42,.45)}
+.tab.qr svg{width:24px;height:24px}
+.logo{font-family:'Russo One','Arial Black',Arial,sans-serif;line-height:.9;color:var(--g)}
+.logo .s{font-size:17px;letter-spacing:.5px}
+.logo .p{font-size:11px;font-style:italic;display:block;text-align:right;margin-right:4px}
+.hdr{display:flex;justify-content:space-between;align-items:center;margin:4px 0 14px}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--gl);color:var(--gd);display:grid;place-items:center;font-weight:700;font-size:13px}
+.hi{font-size:19px;font-weight:800;margin-bottom:2px}
+.sub{font-size:12px;color:var(--ink2)}
+.cc{background:linear-gradient(135deg,#1a1d21 0%,#2b3138 60%,#3a4a2a 100%);color:#fff;border-radius:18px;padding:16px;position:relative;overflow:hidden;margin:12px 0}
+.cc:after{content:"";position:absolute;right:-40px;top:-40px;width:140px;height:140px;border-radius:50%;background:rgba(118,184,42,.25)}
+.cc .k{font-size:10px;opacity:.7;letter-spacing:.5px;text-transform:uppercase}
+.cc .v{font-size:24px;font-weight:800;margin:2px 0 10px;display:flex;align-items:center;gap:8px}
+.cc .v .eye{width:18px;opacity:.7;cursor:pointer}
+.cc .row{display:flex;justify-content:space-between;font-size:11px;opacity:.85}
+.cc .brand{font-family:'Russo One','Arial Black',Arial,sans-serif;font-size:12px;color:var(--g);position:absolute;right:16px;top:14px;z-index:1}
+.pts{background:#fff;border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px;border:1px solid var(--line)}
+.medal{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#d9dde2,#a9b0b8);display:grid;place-items:center;font-size:16px}
+.pts>div:nth-child(2){text-align:left}.pts .n{font-weight:800;font-size:16px}
+.pts .t{font-size:11px;color:var(--ink2)}
+.chev{margin-left:auto;color:#aaa;font-size:18px}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
+.q{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:10px;font-weight:600;text-align:center;color:var(--ink)}
+.q i{width:46px;height:46px;border-radius:14px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;font-style:normal;font-size:19px}
+.banner{background:var(--g);color:#fff;border-radius:14px;padding:14px;position:relative;overflow:hidden}
+.banner b{font-size:15px;display:block;line-height:1.2;margin-top:18px}
+.banner small{font-size:11px;opacity:.92}
+.banner .tag{position:absolute;right:12px;top:12px;background:#fff;color:var(--gd);font-weight:800;font-size:10px;padding:3px 7px;border-radius:20px}
+.sec{display:flex;justify-content:space-between;align-items:baseline;margin:16px 0 8px}
+.sec h3{font-size:14px;font-weight:800}
+.sec a{font-size:11px;color:var(--gd);font-weight:700;text-decoration:none}
+.hscroll{display:flex;gap:8px;overflow-x:auto;margin:0 -16px;padding:0 16px}
+.hscroll::-webkit-scrollbar{display:none}
+.cup{flex:0 0 132px;background:#fff;border-radius:12px;border:1px solid var(--line);overflow:hidden}
+.cup .top2{height:54px;display:grid;place-items:center;font-weight:900;font-size:20px;color:#fff}
+.cup .in{padding:8px 10px;font-size:10.5px}
+.cup .in b{display:block;font-size:11.5px;margin-bottom:2px}
+.cup .in span{color:var(--ink2)}
+.c1{background:#111}.c2{background:var(--g)}.c3{background:#1f3a8a}
+.ttl{font-size:18px;font-weight:800;margin:6px 0 4px}
+.qrbox{background:#fff;border-radius:18px;padding:18px;text-align:center;border:1px solid var(--line);margin-top:10px}
+.qrbox svg{width:170px;height:170px}
+.timer{font-size:11px;color:var(--ink2);margin-top:8px}
+.timer b{color:var(--gd)}
+.code{font-family:ui-monospace,monospace;letter-spacing:3px;font-size:13px;font-weight:700;margin-top:6px}
+.opt{background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 12px;display:flex;align-items:center;gap:10px;margin-top:8px;font-size:12px}
+.opt .ic{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-size:14px;flex-shrink:0}
+.opt b{display:block;font-size:12.5px}
+.opt span{color:var(--ink2);font-size:11px}
+.opt.sel{border:2px solid var(--g);background:var(--gl)}
+.pills{display:flex;gap:6px;margin-top:8px}
+.pill{flex:1;text-align:center;padding:7px 0;border-radius:9px;background:#fff;border:1px solid var(--line);font-size:11px;font-weight:700;cursor:pointer}
+.pill.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.sw{margin-left:auto;width:34px;height:20px;border-radius:20px;background:var(--g);position:relative;flex-shrink:0;cursor:pointer;transition:.2s}
+.sw:after{content:"";position:absolute;right:2px;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.2s}
+.sw.off{background:#cfd3d8}.sw.off:after{right:16px}
+.note{font-size:10.5px;color:var(--ink2);text-align:center;margin-top:10px}
+.lvl{background:linear-gradient(135deg,#1a1d21,#2f3a22);color:#fff;border-radius:18px;padding:16px;margin-top:8px}
+.lvl .big{font-size:30px;font-weight:800;line-height:1}
+.lvl .big small{font-size:13px;font-weight:600;opacity:.7}
+.lvl .bar{height:7px;background:rgba(255,255,255,.15);border-radius:10px;margin:12px 0 6px;overflow:hidden}
+.lvl .bar i{display:block;height:100%;width:62%;background:var(--g);border-radius:10px}
+.lvl .meta{display:flex;justify-content:space-between;gap:8px;font-size:10.5px;opacity:.8}
+.badge{display:inline-block;background:rgba(255,255,255,.12);padding:3px 8px;border-radius:20px;font-size:10px;font-weight:700;margin-bottom:8px}
+.seg{display:flex;background:#e3e6ea;border-radius:10px;padding:3px;margin-top:14px}
+.seg div{flex:1;text-align:center;font-size:11px;font-weight:700;padding:7px 0;border-radius:8px;color:var(--ink2)}
+.seg .on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.canje{display:flex;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:8px}
+.canje .l{width:66px;display:grid;place-items:center;color:#fff;font-weight:900;font-size:15px;text-align:center;line-height:1.05}
+.canje .r{padding:9px 10px;flex:1;font-size:11px}
+.canje .r b{display:block;font-size:12px}
+.canje .r span{color:var(--ink2)}
+.canje .btn{align-self:center;margin-right:10px;background:var(--gl);color:var(--gd);font-weight:800;font-size:10.5px;padding:6px 9px;border-radius:8px;white-space:nowrap}
+.mission{background:#fff;border:1px dashed var(--g);border-radius:12px;padding:11px 12px;margin-top:8px;font-size:11px}
+.mission b{font-size:12px}
+.mission .bar2{height:5px;background:var(--gl);border-radius:5px;margin-top:7px;overflow:hidden}
+.mission .bar2 i{display:block;height:100%;width:50%;background:var(--g)}
+.res{background:#fff;border-radius:16px;border:1px solid var(--line);padding:14px;margin-top:8px}
+.res .k{font-size:11px;color:var(--ink2)}
+.res .v{font-size:26px;font-weight:800;margin:2px 0}
+.res .row{display:flex;justify-content:space-between;font-size:11.5px;padding:6px 0;border-top:1px solid var(--line)}
+.res .row:first-of-type{margin-top:8px}
+.cta{display:block;width:100%;background:var(--g);color:#fff;text-align:center;font-weight:800;font-size:13px;padding:12px;border-radius:12px;margin-top:12px;border:0}
+.cta.alt{background:#fff;color:var(--ink);border:1px solid var(--line);margin-top:8px}
+.li{display:flex;align-items:center;gap:10px;background:#fff;padding:10px 12px;border-bottom:1px solid var(--line);font-size:12px}
+.li:first-child{border-radius:12px 12px 0 0}.li:last-child{border-radius:0 0 12px 12px;border-bottom:0}
+.li .ic{width:30px;height:30px;border-radius:8px;background:var(--bg);display:grid;place-items:center;font-size:14px}
+.li b{display:block;font-size:12px}
+.li span{color:var(--ink2);font-size:10.5px}
+.li .amt{margin-left:auto;text-align:right;font-weight:700;white-space:nowrap}
+.li .amt span{display:block;font-weight:500}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.tile{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;font-size:11px;font-weight:700}
+.tile i{font-style:normal;font-size:17px;display:block;margin-bottom:6px}
+.stores{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.st{font-size:10px;font-weight:800;padding:5px 9px;border-radius:20px;background:#fff;border:1px solid var(--line)}
+.st.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.wc{background:#fff;border-radius:14px;border:1px solid var(--line);margin-top:10px;overflow:hidden;display:flex}
+.wc .side{width:74px;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#fff;font-weight:900;font-size:19px;position:relative}
+.wc .side:after{content:"";position:absolute;right:-6px;top:50%;width:12px;height:12px;background:var(--bg);border-radius:50%;transform:translateY(-50%)}
+.wc .side small{font-size:9px;font-weight:700;opacity:.85}
+.wc .main{padding:10px 12px;font-size:11px;flex:1}
+.wc .main b{font-size:12.5px;display:block}
+.wc .main span{color:var(--ink2)}
+.wc .chips{display:flex;gap:4px;margin-top:6px}
+.wc .chips em{font-style:normal;font-size:9px;font-weight:700;background:var(--bg);padding:2px 6px;border-radius:5px}
+.wc .chips em.act{background:var(--gl);color:var(--gd)}
+.notes{max-width:1500px;margin:36px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.nt{background:#fff;border-radius:14px;padding:16px 18px;font-size:13px;line-height:1.5;color:var(--ink2)}
+.nt h4{color:var(--ink);font-size:14px;margin-bottom:6px}
+.nt h4 span{color:var(--gd)}
+
+/* v2 */
+.hero{background:linear-gradient(160deg,#1a1d21 0%,#26301c 100%);margin:-4px -16px 0;padding:6px 16px 18px;color:#fff}
+.hero .hdr{margin:4px 0 12px}
+.hero .hi{color:#fff;font-size:16px}
+.hero .avatar{background:rgba(255,255,255,.12);color:var(--g)}
+.bell{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.12);display:grid;place-items:center;position:relative;font-size:14px}
+.bell b{position:absolute;top:-3px;right:-3px;background:#e11d48;color:#fff;font-size:8.5px;width:15px;height:15px;border-radius:50%;display:grid;place-items:center}
+.toggle{display:flex;background:rgba(255,255,255,.1);border-radius:30px;padding:3px;margin-bottom:12px}
+.toggle div{flex:1;text-align:center;font-size:11.5px;font-weight:700;padding:7px 0;border-radius:30px;color:rgba(255,255,255,.75);cursor:pointer}
+.toggle .on{background:#fff;color:var(--ink)}
+.acct{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:13px}
+.acct .k{font-size:11px;opacity:.75;display:flex;justify-content:space-between;align-items:center}
+.yield{background:rgba(118,184,42,.2);color:#b6ec7c;border:1px solid rgba(118,184,42,.5);font-size:9.5px;font-weight:800;padding:3px 7px;border-radius:7px}
+.acct .v{font-size:25px;font-weight:800;margin:3px 0 10px;display:flex;align-items:center;gap:8px}
+.acct .v .eye{width:18px;opacity:.7;cursor:pointer}
+.acct .btns{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.acct .btns div{background:rgba(255,255,255,.08);border-radius:10px;padding:8px 0;text-align:center;font-size:10px;font-weight:700}
+.acct .btns i{font-style:normal;display:block;font-size:14px;margin-bottom:2px}
+.ptsbar{background:var(--g);color:#fff;border-radius:12px;padding:11px 14px;display:flex;align-items:center;margin:-10px 0 0;position:relative;box-shadow:0 6px 14px rgba(118,184,42,.35);font-size:12px}
+.ptsbar b{margin-left:auto;font-size:17px}
+.ptsbar span{opacity:.9}
+.ptsbar em{font-style:normal;font-weight:800}
+.qrow{display:flex;gap:10px;overflow-x:auto;margin:14px -16px 4px;padding:0 16px}
+.qrow::-webkit-scrollbar{display:none}
+.qrow .q{flex:0 0 60px}
+.fav{background:linear-gradient(120deg,#0f172a,#1e3a8a);color:#fff;border-radius:14px;padding:13px;display:flex;gap:10px;align-items:center;margin-top:10px}
+.fav .burst{width:52px;height:52px;flex-shrink:0;background:var(--g);border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:15px;clip-path:polygon(50% 0,61% 12%,77% 7%,80% 23%,95% 28%,89% 43%,100% 55%,87% 64%,90% 80%,74% 82%,67% 97%,53% 89%,38% 99%,30% 85%,14% 87%,15% 71%,1% 62%,10% 48%,2% 33%,17% 26%,21% 10%,37% 12%)}
+.fav b{font-size:13px;display:block}
+.fav small{font-size:10.5px;opacity:.85}
+.fav .go{margin-top:6px;display:inline-block;background:#fff;color:#1e3a8a;font-size:10px;font-weight:800;padding:5px 9px;border-radius:7px}
+.addcode{border:1.5px dashed #b9c0c8;border-radius:12px;padding:12px;text-align:center;font-size:12px;font-weight:700;color:var(--gd);margin-top:10px;background:#fff}
+.cp{background:#fff;border:1px solid var(--line);border-radius:14px;margin-top:10px;overflow:hidden}
+.cp .tp{display:flex;font-size:10px;font-weight:800;white-space:nowrap}
+.cp .tp .st1{background:var(--g);color:#fff;padding:5px 10px}
+.cp .tp .st2{padding:5px 10px;color:var(--ink2)}
+.cp .tp .st3{padding:5px 10px;margin-left:auto;color:#b45309}
+.cp .mid{display:flex;gap:10px;padding:8px 12px 10px;align-items:center}
+.cp .pct{width:52px;height:52px;border-radius:12px;display:grid;place-items:center;color:#fff;font-weight:900;font-size:16px;flex-shrink:0}
+.cp .mid b{font-size:12.5px;display:block}
+.cp .mid span{font-size:10.5px;color:var(--ink2)}
+.cp .foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding:7px 12px;font-size:10.5px;font-weight:700;color:var(--gd)}
+.act{background:var(--ink);color:#fff;border-radius:20px;padding:5px 12px;font-size:10.5px;font-weight:800;cursor:pointer}
+.act.done{background:var(--gl);color:var(--gd)}
+.voucher{background:#fff;border:2px dashed var(--g);border-radius:14px;padding:12px;margin-top:10px;text-align:center}
+.voucher .vt{font-size:10px;font-weight:800;color:var(--gd);letter-spacing:1px}
+.voucher .vc{font-family:ui-monospace,monospace;font-size:18px;font-weight:800;letter-spacing:2px;margin:4px 0}
+.voucher .vs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.voucher .vs div{background:var(--bg);border-radius:9px;padding:7px 4px;font-size:10px;font-weight:700}
+.voucher .vs i{font-style:normal;display:block;font-size:14px}
+.rule{background:var(--gl);color:var(--gd);font-size:11px;font-weight:700;border-radius:10px;padding:8px 10px;margin-top:10px;text-align:center}
+.svc{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;gap:12px;align-items:center;margin-top:8px}
+.svc .ic{width:38px;height:38px;border-radius:10px;background:var(--gl);display:grid;place-items:center;font-size:17px;flex-shrink:0}
+.svc b{font-size:13px;display:block}
+.svc span{font-size:10.5px;color:var(--ink2)}
+.svc .chev{margin-left:auto}
+.mc{background:linear-gradient(135deg,#76B82A,#3f7a10);color:#fff;border-radius:16px;padding:14px;position:relative;height:118px;margin-top:8px;overflow:hidden}
+.mc .lg{font-family:'Russo One','Arial Black',Arial,sans-serif;font-size:13px;line-height:.9}
+.mc .lg small{display:block;font-size:9px;font-style:italic;text-align:right;width:76px}
+.mc .num{position:absolute;left:14px;bottom:14px;font-size:12px;letter-spacing:2px;font-weight:600}
+.mc .mcl{position:absolute;right:14px;bottom:12px;display:flex}
+.mc .mcl i{width:24px;height:24px;border-radius:50%;background:#eb001b;display:block}
+.mc .mcl i+i{background:#f79e1b;margin-left:-10px;opacity:.95}
+.mc .tagp{position:absolute;right:14px;top:14px;font-size:9px;font-weight:800;background:rgba(255,255,255,.2);padding:3px 7px;border-radius:6px}
+.mc2{background:linear-gradient(135deg,#1a1d21,#3b4148)}
+.paym{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.pm{background:#fff;border:1px solid var(--line);border-radius:11px;padding:9px;font-size:10.5px;font-weight:700;display:flex;align-items:center;gap:7px;cursor:pointer}
+.pm i{font-style:normal;width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-size:12px;color:#fff;font-weight:900;flex-shrink:0}
+.pm.on{border:2px solid var(--g);background:var(--gl)}
+.ministat{display:flex;gap:6px;margin-top:8px}
+.ministat div{flex:1;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px;font-size:10px;color:var(--ink2)}
+.ministat b{display:block;font-size:13px;color:var(--ink)}
+.feat{background:#fff;border-radius:14px;overflow:hidden;border:1px solid var(--line);margin-top:10px}
+.feat .img{height:84px;background:linear-gradient(120deg,#111 0%,#2b2b2b 55%,var(--g) 55%);display:flex;align-items:center;padding:0 14px;color:#fff;font-weight:900;font-size:15px;line-height:1.1}
+.feat .ft{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;font-size:11px;color:var(--ink2)}
+.feat .ft a{border:1.5px solid var(--g);color:var(--gd);font-weight:800;border-radius:20px;padding:4px 10px;font-size:10.5px;text-decoration:none}
+.newtag{display:inline-block;background:var(--g);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:5px;vertical-align:middle;margin-left:4px}
+.vtag{font-size:9.5px;font-weight:800;color:var(--gd);background:var(--gl);padding:2px 7px;border-radius:5px;margin-left:6px;vertical-align:middle}
+
+html,body{height:100%}
+body{display:flex;align-items:center;justify-content:center;gap:48px;padding:24px}
+.intro{max-width:340px}
+.intro h1{font-family:'Russo One','Arial Black',Arial,sans-serif;font-size:30px}
+.intro h1 span{color:var(--g)}
+.intro p{color:var(--ink2);font-size:14px;line-height:1.5;margin-top:10px}
+.intro .conf{display:inline-block;margin-top:16px}
+.phone{height:700px;width:340px;flex-shrink:0}
+.scr{display:none}.scr.on{display:block}
+.status.dark{background:#1a1d21;color:#fff}
+.tab{cursor:pointer;user-select:none}
+.back{display:inline-block;width:28px;cursor:pointer;color:var(--gd);font-size:24px;line-height:1;vertical-align:-2px}
+.q,.svc,.ptsbar,.cup,.addcode,.fav .go,.sec a,.bell,.acct .btns div,.tile{cursor:pointer}
+.toast{position:absolute;left:16px;right:16px;bottom:78px;background:var(--ink);color:#fff;font-size:12.5px;font-weight:600;padding:12px 14px;border-radius:12px;opacity:0;transform:translateY(10px);transition:.25s;pointer-events:none;z-index:9}
+.toast.show{opacity:1;transform:none}
+body{padding:0;display:block;background:#111}
+.phone{width:100%;max-width:480px;margin:0 auto;height:100vh;height:100dvh;border-radius:0;padding:0;box-shadow:none;background:var(--bg)}
+.screen{border-radius:0}
+.status{display:none}
+.body{padding-top:calc(env(safe-area-inset-top) + 14px)}
+#s-inicio{padding-top:0}
+#s-inicio .hero{padding-top:calc(env(safe-area-inset-top) + 14px)}
+.tabbar{height:calc(62px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom)}
+.splus{font-family:'Russo One','Arial Black',Arial,sans-serif;font-style:normal;letter-spacing:.3px}
+.splus sup{color:#fff;background:var(--gd);border-radius:4px;padding:0 3px;font-size:.7em;margin-left:2px;vertical-align:.45em}
+.ptsbar .splus sup{background:#fff;color:var(--gd)}
+.big2{font-size:22px;color:var(--ink)}
+.cardpane{display:none}.cardpane.on{display:block}
+.seg div{cursor:pointer}
+.mcblack{background:linear-gradient(135deg,#0b0c0d 0%,#1d2024 100%)}
+.mcblack .stripe{position:absolute;left:0;right:0;bottom:46px;height:3px;background:linear-gradient(90deg,var(--g),transparent 75%)}
+.mcblack:after{content:"";position:absolute;right:-30px;top:-30px;width:110px;height:110px;border-radius:50%;border:2px solid rgba(118,184,42,.35)}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-bank" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 4l9 5.5M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/></symbol>
+  <symbol id="i-qr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 7V4h3M18 4h3v3M21 17v3h-3M6 20H3v-3M7 8h3v3H7zM14 8h3v3h-3zM7 13h3v3H7zM14 14h3M14 17h3"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="7.5" cy="7.5" r="1.5"/></symbol>
+</svg>
+<div class="phone"><div class="screen">
+  <div class="status dark" id="status"><span>9:41</span><span>●●● 5G ▮</span></div>
+<div class="body scr on" id="s-inicio">
+      <div class="hero">
+        <div class="hdr">
+          <div class="hi">Hola, Martina</div>
+          <div style="display:flex;gap:8px"><div class="bell">🔔<b>3</b></div><div class="avatar">MR</div></div>
+        </div>
+        <div class="toggle" data-t><div class="on">Sucursales</div><div>Compra online</div></div>
+        <div class="acct">
+          <div class="k"><span>Dinero en cuenta ›</span><span class="yield">↑ RINDE · ACTIVÁ</span></div>
+          <div class="v"><span class="amt" data-v="$ 84.250">$ 84.250</span>
+            <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" onclick="toggleAmt(this)"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <div class="btns"><div><i>⬇</i>Ingresar</div><div><i>⇄</i>Transferir</div><div><i>＃</i>Alias/CVU</div></div>
+        </div>
+      </div>
+      <div class="ptsbar"><span>Mis puntos <em class="splus">Sporting<sup>+</sup></em></span><b>4.339 ›</b></div>
+      <div class="qrow">
+        <div class="q"><i>🎟️</i>Mis cupones</div>
+        <div class="q"><i>💳</i>Mis tarjetas</div>
+        <div class="q"><i>🧾</i>Pagar resumen</div>
+        <div class="q"><i>🎁</i>Canjear puntos</div>
+        <div class="q"><i>📍</i>Sucursales</div>
+        <div class="q"><i>🛍️</i>Mis compras</div>
+      </div>
+      <div class="fav">
+        <div class="burst">20%</div>
+        <div><b>Tu deporte de la semana</b><small>Elegí running, fútbol, training o outdoor y tenés 20% hasta el domingo</small><br><span class="go">Elegir mi deporte</span></div>
+      </div>
+      <div class="sec"><h3>Cupones para vos</h3><a href="#">Ver todos</a></div>
+      <div class="hscroll">
+        <div class="cup"><div class="top2 c1">20%</div><div class="in"><b>Running</b><span>Quedan 5 días</span></div></div>
+        <div class="cup"><div class="top2 c2">x2</div><div class="in"><b>Puntos dobles</b><span>Botines · finde</span></div></div>
+        <div class="cup"><div class="top2 c3">$5K</div><div class="in"><b>Off en Nike</b><span>Mín. $60.000</span></div></div>
+      </div>
+    </div>
+<div class="body scr" id="s-pagar">
+      <div class="ttl">Pagar en sucursal</div>
+      <div class="sub">Mostrá el código o escaneá el QR de la caja</div>
+      <div class="qrbox" style="padding:14px">
+        <svg viewBox="0 0 29 29" shape-rendering="crispEdges" id="qr" style="width:150px;height:150px"></svg>
+        <div class="code">7741 0928 3315</div>
+        <div class="timer">Se renueva en <b id="t">0:45</b></div>
+      </div>
+      <div class="sec" style="margin-top:12px"><h3>Pagar con</h3></div>
+      <div class="paym" id="paym">
+        <div class="pm on"><i style="background:var(--g)">$</i>Prepaga · cuenta</div>
+        <div class="pm"><i style="background:#111;color:var(--g)">SP</i>Crédito SP</div>
+        <div class="pm"><i style="background:#1a1d21">🏷</i>Canjear puntos</div>
+        <div class="pm"><i style="background:#9aa0a6">…</i>Otro medio</div>
+      </div>
+      <div class="opt">
+        <div class="ic" style="background:var(--gl)">🎟️</div>
+        <div><b>2 cupones se aplican solos</b><span>20% Running + puntos x2</span></div>
+        <div class="sw" onclick="this.classList.toggle('off')"></div>
+      </div>
+      <div class="opt">
+        <div class="ic" style="background:#fff4d6">⭐</div>
+        <div><b>Sumás ~3.400 pts</b><span>1 punto cada $20 de compra</span></div>
+      </div>
+    </div>
+<div class="body scr" id="s-cupones">
+      <div class="ttl">Mis cupones</div>
+      <div class="stores" data-chips>
+        <span class="st on">Todos</span><span class="st">Sporting</span><span class="st">adidas</span><span class="st">Nike</span><span class="st">Online</span>
+      </div>
+      <div class="addcode">🎫 Añadir código de descuento</div>
+      <div class="cp">
+        <div class="tp"><span class="st1">Activado</span><span class="st2">Tienda y web</span><span class="st3">Quedan 6 días</span></div>
+        <div class="mid"><div class="pct c1">20%</div><div><b>Running seleccionado</b><span>Tope de reintegro $20.000</span></div></div>
+        <div class="foot"><span>Ver detalle ›</span><span class="act done">✓ Activo</span></div>
+      </div>
+      <div class="cp">
+        <div class="tp"><span class="st2">Solo tiendas Nike</span><span class="st3">Del 16/10 al 31/10</span></div>
+        <div class="mid"><div class="pct c3">$5K</div><div><b>Off en tiendas Nike</b><span>Compra mínima $60.000</span></div></div>
+        <div class="foot"><span>Ver detalle ›</span><span class="act" onclick="activar(this)">Activar</span></div>
+      </div>
+      <div class="cp">
+        <div class="tp"><span class="st2">Con Sporting Pay Crédito</span><span class="st3">Jueves</span></div>
+        <div class="mid"><div class="pct c2">6x</div><div><b>6 cuotas sin interés</b><span>adidas y Nike · sucursales</span></div></div>
+        <div class="foot"><span>Ver detalle ›</span><span class="act" onclick="activar(this)">Activar</span></div>
+      </div>
+    </div>
+<div class="body scr" id="s-club">
+      <div class="ttl"><span class="splus big2">Sporting<sup>+</sup></span></div>
+      <div class="lvl">
+        <div class="big">4.339 <small>puntos</small></div>
+        <div class="bar"><i style="width:72%"></i></div>
+        <div class="meta"><span>A 661 pts de tu próximo canje</span><span>1 pt c/ $20</span></div>
+      </div>
+      <div class="voucher">
+        <div class="vt">TU ÚLTIMO CANJE · $3.000 OFF</div>
+        <div class="vc">MIL-7K2Q-91</div>
+        <div class="vs"><div><i>🛒</i>Online: pegá el código</div><div><i>🪪</i>En tienda: decí tu DNI o mostrá el QR</div></div>
+      </div>
+      <div class="sec"><h3>Canjeá tus puntos</h3><a href="#">Ver catálogo</a></div>
+      <div class="canje">
+        <div class="l c2">$3.000<br><small style="font-size:9px">OFF</small></div>
+        <div class="r"><b>Descuento en tu compra</b><span>3.000 pts</span></div>
+        <div class="btn" onclick="toast('🎉 Canje listo: el código quedó en Mis cupones')">Canjear</div>
+      </div>
+      <div class="canje">
+        <div class="l c1">🎟️</div>
+        <div class="r"><b>Chance: camiseta Selección</b><span>500 pts por chance · sorteo semanal</span></div>
+        <div class="btn" onclick="toast('🎟️ ¡Ya estás participando!')">Participar</div>
+      </div>
+      <div class="canje">
+        <div class="l c3">🏃</div>
+        <div class="r"><b>Inscripción a carrera</b><span>5.000 pts</span></div>
+        <div class="btn" onclick="toast('🎉 Canje listo: el código quedó en Mis cupones')">Canjear</div>
+      </div>
+    </div>
+<div class="body scr" id="s-finanzas">
+      <div class="ttl">Mis tarjetas</div>
+      <div class="seg" id="cardseg" style="margin-top:6px"><div class="on" data-card="pre">Prepaga</div><div data-card="cre">Crédito</div></div>
+      <div class="cardpane on" id="card-pre">
+        <div class="mc" style="height:160px;margin-top:12px">
+          <div class="lg">SPORTING<small>PAY</small></div>
+          <span class="tagp">PREPAGA</span>
+          <div class="num">···· 3307</div>
+          <div class="mcl"><i></i><i></i></div>
+        </div>
+        <div class="ministat"><div>Usa tu dinero en cuenta<b>$ 84.250</b></div><div>Puntos este mes<b>+640 pts</b></div></div>
+        <div class="grid2">
+          <div class="tile"><i>⬇</i>Ingresar dinero</div>
+          <div class="tile"><i>👁</i>Ver datos de la tarjeta</div>
+          <div class="tile"><i>❄️</i>Congelar tarjeta</div>
+          <div class="tile"><i>📦</i>Pedir tarjeta física</div>
+        </div>
+        <div class="rule">Sin límite ni resumen: cada compra descuenta de tu cuenta al instante</div>
+      </div>
+      <div class="cardpane" id="card-cre">
+        <div class="mc mcblack" style="height:160px;margin-top:12px">
+          <div class="stripe"></div>
+          <div class="lg" style="color:var(--g)">SPORTING<small style="color:#fff">PAY</small></div>
+          <span class="tagp" style="background:rgba(118,184,42,.18);color:#b6ec7c">CRÉDITO</span>
+          <div class="num">···· 4821</div>
+          <div class="mcl"><i></i><i></i></div>
+        </div>
+        <div class="ministat"><div>Disponible<b>$ 485.300</b></div><div>Resumen vence 10/11<b>$ 132.870</b></div></div>
+        <div class="svc" data-go="resumen"><div class="ic">🧾</div><div><b>Pagar resumen</b><span>Con tu cuenta, MacroClick, Rapipago o Pago Fácil</span></div><div class="chev">›</div></div>
+        <div class="grid2">
+          <div class="tile"><i>🗓️</i>Cuotas en curso</div>
+          <div class="tile"><i>📈</i>Aumento de límite</div>
+          <div class="tile"><i>❄️</i>Congelar tarjeta</div>
+          <div class="tile"><i>📄</i>Resúmenes PDF</div>
+        </div>
+      </div>
+      <div class="sec"><h3>Más para vos</h3></div>
+      <div class="svc"><div class="ic">💸</div><div><b>Préstamos Sporting Pay</b><span>Financiá tu compra a tu medida</span></div><div class="chev">›</div></div>
+    </div>
+<div class="body scr" id="s-resumen">
+      <div class="ttl"><span class="back" data-go="finanzas">‹</span> Pagar resumen</div>
+      <div class="res">
+        <div class="k">Sporting Pay Crédito ···· 4821 · vence 10/11</div>
+        <div class="v">$ 132.870</div>
+        <div class="pills" id="monto"><div class="pill on">Total</div><div class="pill">Mínimo $26.574</div><div class="pill">Otro</div></div>
+      </div>
+      <div class="sec"><h3>¿Cómo querés pagar?</h3></div>
+      <div class="opt sel" data-pay>
+        <div class="ic" style="background:var(--g);color:#fff;font-weight:900">$</div>
+        <div><b>Con tu dinero en cuenta</b><span>Al instante · disponible $ 84.250</span></div>
+      </div>
+      <div class="opt" data-pay>
+        <div class="ic" style="background:#eef2ff">🏦</div>
+        <div><b>Transferencia / MacroClick</b><span>Desde tu banco</span></div>
+      </div>
+      <div class="opt" data-pay>
+        <div class="ic" style="background:#fff4d6">🏪</div>
+        <div><b>Rapipago o Pago Fácil</b><span>Generá el código de pago en efectivo</span></div>
+      </div>
+      <div class="rule">💡 Saldo insuficiente: ingresá $48.620 por CVU y pagás el total</div>
+      <button class="cta" onclick="toast('✓ Pago acreditado. ¡Gracias!')">Pagar $ 132.870</button>
+    </div>
+  <div class="toast" id="toast"></div>
+  <div class="tabbar">
+    <div class="tab on" data-go="inicio"><svg><use href="#i-home"/></svg>Inicio</div>
+    <div class="tab" data-go="cupones"><svg><use href="#i-tag"/></svg>Cupones</div>
+    <div class="tab qr" data-go="pagar"><svg><use href="#i-qr"/></svg></div>
+    <div class="tab" data-go="club"><svg><use href="#i-star"/></svg>Sporting+</div>
+    <div class="tab" data-go="finanzas"><svg><use href="#i-bank"/></svg>Tarjetas</div>
+  </div>
+</div></div>
+<script>
+
+(function(){
+  const s=document.getElementById('qr');let h='<rect width="29" height="29" fill="#fff"/>';
+  const finder=(x,y)=>`<rect x="${x}" y="${y}" width="7" height="7" fill="#121417"/><rect x="${x+1}" y="${y+1}" width="5" height="5" fill="#fff"/><rect x="${x+2}" y="${y+2}" width="3" height="3" fill="#121417"/>`;
+  let seed=7;const r=()=>(seed=(seed*9301+49297)%233280)/233280;
+  for(let y=0;y<29;y++)for(let x=0;x<29;x++){
+    const inF=(x<8&&y<8)||(x>20&&y<8)||(x<8&&y>20);
+    if(!inF&&r()>.52)h+=`<rect x="${x}" y="${y}" width="1" height="1" fill="#121417"/>`;
+  }
+  h+=finder(0,0)+finder(22,0)+finder(0,22)+'<rect x="11" y="11" width="7" height="7" rx="1.5" fill="#76B82A"/>';
+  s.innerHTML=h;
+})();
+let sec=45;setInterval(()=>{sec=sec<=0?45:sec-1;document.getElementById('t').textContent='0:'+String(sec).padStart(2,'0')},1000);
+function group(sel,cls){document.querySelectorAll(sel).forEach(p=>p.onclick=()=>{p.parentElement.querySelectorAll(':scope > *').forEach(x=>x.classList.remove(cls));p.classList.add(cls)})}
+group('#monto .pill','on');group('#paym .pm','on');group('[data-t] div','on');group('[data-chips] .st','on');
+document.querySelectorAll('[data-pay]').forEach(p=>p.onclick=()=>{document.querySelectorAll('[data-pay]').forEach(x=>x.classList.remove('sel'));p.classList.add('sel')});
+function activar(el){el.textContent='✓ Activo';el.classList.add('done')}
+function toggleAmt(el){const a=el.parentElement.querySelector('.amt');a.textContent=a.textContent.includes('•')?a.dataset.v:'$ •••••'}
+
+const tabOf={inicio:'inicio',pagar:'pagar',cupones:'cupones',club:'club',finanzas:'finanzas',resumen:'finanzas'};
+document.querySelectorAll('#cardseg div').forEach(d=>d.onclick=()=>{document.querySelectorAll('#cardseg div').forEach(x=>x.classList.toggle('on',x===d));document.querySelectorAll('.cardpane').forEach(p=>p.classList.toggle('on',p.id==='card-'+d.dataset.card))});
+function go(id){
+  document.querySelectorAll('.scr').forEach(x=>x.classList.toggle('on',x.id==='s-'+id));
+  document.querySelectorAll('.tabbar .tab').forEach(t=>t.classList.toggle('on',t.dataset.go===tabOf[id]&&!t.classList.contains('qr')));
+  document.getElementById('status').classList.toggle('dark',id==='inicio');
+  const el=document.getElementById('s-'+id);el.scrollTop=0;
+}
+let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2200)}
+document.addEventListener('click',e=>{
+  const g=e.target.closest('[data-go]');if(g){go(g.dataset.go);return}
+  const el=e.target.closest('.q,.svc,.ptsbar,.cup,.addcode,.fav .go,.sec a,.bell,.acct .btns div,.tile');
+  if(!el)return;e.preventDefault();
+  const t=el.textContent.toLowerCase();
+  if(el.matches('.ptsbar')||t.includes('canjear puntos')||t.includes('ver catálogo'))return go('club');
+  if(t.includes('mis cupones')||el.matches('.cup')||(el.matches('.sec a')&&t.includes('ver todos')))return go('cupones');
+  if(t.includes('pagar resumen'))return go('resumen');
+  if(t.includes('mis tarjetas'))return go('finanzas');
+  if(t.includes('ingresar'))return toast('Tu CVU: 0000…4821 · alias sporting.pay.martina');
+  if(t.includes('alias'))return toast('Alias: sporting.pay.martina · CVU copiado');
+  if(t.includes('añadir código'))return toast('Ingresá tu código (demo)');
+  if(t.includes('elegir mi deporte'))return toast('🏃 Elegiste Running: 20% hasta el domingo');
+  toast('Demo: esta sección viene en la próxima versión');
+});
+</script>
+</body>
+</html>
